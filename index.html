@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freebee BC — A birthday register for Metro Vancouver</title>
+  <meta name="description" content="A quiet, curated list of free birthday perks from local and chain businesses across Metro Vancouver and Sea-to-Sky. No account, no tracking.">
+  <meta name="theme-color" content="#EFE8DA">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fraunces: variable display serif with optical sizing. Newsreader: text-optimized serif. -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────────────────────────
+       TOKENS — warm linen, oxblood, brass. Editorial register.
+       ───────────────────────────────────────────────────────────────── */
+    :root {
+      --paper:        #EFE8DA;   /* linen background */
+      --paper-edge:   #E7DFCE;   /* slightly deeper for ornaments */
+      --card:         #FBF7EC;   /* slightly creamier than bg */
+      --card-edge:    #F5EFE0;
+      --rule:         #D9CFB8;   /* hairline rule */
+      --rule-soft:    #E5DCC7;
+      --ink:          #1C1814;   /* deep warm black */
+      --ink-mid:      #6B6052;   /* warm taupe */
+      --ink-light:    #A1947E;   /* faded ink */
+      --oxblood:      #8E2C2C;   /* primary accent */
+      --oxblood-deep: #6F2020;
+      --oxblood-soft: #F2E0DC;
+      --brass:        #9C7344;   /* secondary accent */
+      --brass-soft:   #F0E6D2;
+      --sage:         #5C6B4F;   /* tertiary, calm */
+      --sage-soft:    #E2E6D6;
+      --radius:       8px;
+      --radius-sm:    4px;
+      --shadow-paper: 0 1px 0 rgba(28,24,20,0.03), 0 2px 8px rgba(28,24,20,0.04);
+      --shadow-lift:  0 2px 0 rgba(28,24,20,0.04), 0 8px 24px rgba(28,24,20,0.08);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       RESET
+       ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Newsreader', Georgia, serif;
+      font-variation-settings: "opsz" 16;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* very subtle paper grain */
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.4) 0, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(140,110,70,0.04) 0, transparent 50%);
+    }
+    button { font-family: inherit; cursor: pointer; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    input, select, textarea { font-family: inherit; color: inherit; }
+    img { display: block; }
+    ::selection { background: var(--oxblood); color: var(--card); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       LAYOUT
+       ───────────────────────────────────────────────────────────────── */
+    #app {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 6rem;
+      flex: 1;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       TYPOGRAPHY HELPERS
+       ───────────────────────────────────────────────────────────────── */
+    .serif       { font-family: 'Fraunces', 'Newsreader', Georgia, serif; }
+    .display     { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 96, "SOFT" 30; font-weight: 400; letter-spacing: -0.025em; line-height: 1.05; }
+    .display-it  { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 96, "SOFT" 50; font-weight: 300; font-style: italic; letter-spacing: -0.02em; line-height: 1.1; }
+    .label       { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 14; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mid); }
+    .small-cap   { font-family: 'Newsreader', serif; font-variation-settings: "opsz" 10; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .italic      { font-style: italic; }
+
+    /* Ornaments */
+    .rule-h {
+      height: 1px;
+      background: var(--rule);
+      border: 0;
+    }
+    .rule-flourish {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--ink-light);
+      font-size: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .rule-flourish::before,
+    .rule-flourish::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       MASTHEAD (header)
+       ───────────────────────────────────────────────────────────────── */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .masthead-mark {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 48, "SOFT" 50;
+      font-weight: 400;
+      font-size: 1.35rem;
+      letter-spacing: -0.015em;
+      line-height: 1;
+    }
+    .masthead-mark .it {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--oxblood);
+    }
+    .masthead-sub {
+      margin-top: 0.3rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      font-weight: 500;
+    }
+    .icon-btn {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 100px;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .icon-btn:hover { color: var(--ink); border-color: var(--ink-light); background: var(--card-edge); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       GREETING
+       ───────────────────────────────────────────────────────────────── */
+    .greeting {
+      margin-bottom: 1.5rem;
+    }
+    .greeting h1 {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      font-weight: 350;
+      font-size: 2.1rem;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+    }
+    .greeting h1 .accent {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--oxblood);
+      font-variation-settings: "opsz" 144, "SOFT" 80;
+    }
+    .greeting p {
+      color: var(--ink-mid);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      max-width: 28rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       LEDGER — progress bar reimagined as a ledger note
+       ───────────────────────────────────────────────────────────────── */
+    .ledger {
+      padding: 0.875rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .ledger-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+    .ledger-head .text {
+      font-size: 0.85rem;
+      color: var(--ink-mid);
+      font-style: italic;
+      font-variation-settings: "opsz" 14;
+    }
+    .ledger-head .count {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 36;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--oxblood);
+      letter-spacing: 0.02em;
+    }
+    .ledger-track {
+      height: 2px;
+      background: var(--rule-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .ledger-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: var(--oxblood);
+      transition: width 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FILTER CHIPS — small caps, hairline, oxblood when active
+       ───────────────────────────────────────────────────────────────── */
+    .scroll-x {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 0.25rem;
+      margin: 0 -1.25rem 1.5rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+    .scroll-x::-webkit-scrollbar { display: none; }
+
+    .chip {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.5rem 0.85rem;
+      border-radius: 100px;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .chip:hover { border-color: var(--ink-light); color: var(--ink); }
+    .chip.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .chip:active { transform: scale(0.97); }
+    .chip:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SECTIONS — three urgency tiers, all refined
+       ───────────────────────────────────────────────────────────────── */
+    .section { margin-bottom: 2rem; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      margin-bottom: 0.875rem;
+    }
+    .section-head .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .section-head h2 {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 24, "SOFT" 40;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+    }
+    .section-head .count {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-left: auto;
+      font-variation-settings: "opsz" 10;
+    }
+    .section-head .count-num { font-style: normal; font-weight: 600; }
+
+    .dot-urgent { background: var(--oxblood); }
+    .dot-plan   { background: var(--brass); }
+    .dot-show   { background: var(--sage); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CARDS — editorial register
+       ───────────────────────────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.125rem;
+      margin-bottom: 0.625rem;
+      transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+      position: relative;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-lift);
+      border-color: var(--ink-light);
+      transform: translateY(-1px);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      margin-bottom: 0.875rem;
+    }
+    .card-meta {
+      flex: 1;
+      min-width: 0;
+      padding-top: 0.1rem;
+    }
+    .card-meta .business {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 36, "SOFT" 30;
+      font-weight: 500;
+      font-size: 1.125rem;
+      letter-spacing: -0.012em;
+      line-height: 1.15;
+      margin-bottom: 0.15rem;
+      color: var(--ink);
+    }
+    .card-meta .perk {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 14;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: var(--oxblood);
+      line-height: 1.4;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       LOGO — bordered tile, soft paper, fallback monogram beneath
+       ───────────────────────────────────────────────────────────────── */
+    .logo-wrap {
+      position: relative;
+      width: 3.25rem;
+      height: 3.25rem;
+      flex-shrink: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      background: #fff;
+    }
+    .logo-initial {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 36, "SOFT" 80;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+      padding: 8px;
+      transition: opacity 0.3s ease;
+    }
+    .logo-img.tiny { padding: 14px; }   /* small low-res favicons get more padding */
+
+    /* ─────────────────────────────────────────────────────────────────
+       INFO ROW — terms expressed as small editorial annotations
+       ───────────────────────────────────────────────────────────────── */
+    .card-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.25rem;
+      margin-bottom: 0.875rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule-soft);
+    }
+    .info-line {
+      font-size: 0.8rem;
+      color: var(--ink-mid);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      line-height: 1.8;
+    }
+    .info-line .info-label {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-light);
+    }
+    .info-line .info-value {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-variation-settings: "opsz" 14;
+      color: var(--ink);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       DEADLINE NOTICE — refined, not loud
+       ───────────────────────────────────────────────────────────────── */
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border-left: 2px solid;
+      margin-bottom: 0.875rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 14;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      font-style: italic;
+    }
+    .notice-urgent {
+      background: var(--oxblood-soft);
+      border-color: var(--oxblood);
+      color: var(--oxblood-deep);
+    }
+    .notice-warn {
+      background: var(--brass-soft);
+      border-color: var(--brass);
+      color: #6E4D24;
+    }
+    .notice strong {
+      font-style: normal;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       NOTES — collapsible
+       ───────────────────────────────────────────────────────────────── */
+    details {
+      margin-bottom: 1rem;
+    }
+    details summary {
+      list-style: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-light);
+      padding: 0.25rem 0;
+      user-select: none;
+      transition: color 0.15s;
+    }
+    details summary:hover { color: var(--ink-mid); }
+    details[open] summary { color: var(--ink-mid); }
+    details summary::-webkit-details-marker { display: none; }
+    .chevron { display: inline-block; transition: transform 0.25s ease; font-style: normal; font-size: 0.85rem; }
+    details[open] .chevron { transform: rotate(90deg); }
+    .notes-body {
+      margin-top: 0.6rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 14;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--ink-mid);
+      padding: 0.875rem 1rem;
+      background: var(--paper);
+      border-left: 2px solid var(--rule);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       ACTIONS
+       ───────────────────────────────────────────────────────────────── */
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.875rem;
+    }
+    .btn {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 14;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      line-height: 1;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+      flex: 1;
+    }
+    .btn-primary:hover { background: var(--oxblood); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-mid);
+      border-color: var(--rule);
+    }
+    .btn-ghost:hover { background: var(--card-edge); color: var(--ink); border-color: var(--ink-light); }
+
+    .btn-icon-sq {
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .btn-coral {
+      background: var(--oxblood);
+      color: var(--paper);
+    }
+    .btn-coral:hover { background: var(--oxblood-deep); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       STATUS — segmented control
+       ───────────────────────────────────────────────────────────────── */
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: 0.875rem;
+    }
+    .status-btn {
+      background: var(--card);
+      border: none;
+      padding: 0.6rem 0.25rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      line-height: 1.2;
+    }
+    .status-btn:hover { background: var(--paper); color: var(--ink); }
+    .status-btn:active { transform: scale(0.97); }
+    .status-btn:focus-visible { outline: 2px solid var(--oxblood); outline-offset: -2px; }
+    .status-btn.is-set {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SOURCE NOTE
+       ───────────────────────────────────────────────────────────────── */
+    .source {
+      margin-top: 0.625rem;
+      text-align: right;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--ink-light);
+    }
+    .source a:hover { color: var(--oxblood); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       DONE SECTION
+       ───────────────────────────────────────────────────────────────── */
+    .done-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      background: transparent;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-mid);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s;
+      margin-bottom: 0.625rem;
+    }
+    .done-toggle:hover { border-color: var(--ink-light); color: var(--ink); background: var(--card); }
+    .done-toggle:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+    .done-toggle .count {
+      margin-left: auto;
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-variation-settings: "opsz" 14;
+      font-size: 0.85rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink-light);
+    }
+    .done-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.78;
+    }
+    .done-business {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 24, "SOFT" 40;
+      font-weight: 500;
+      font-size: 0.92rem;
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .done-status {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-size: 0.72rem;
+      color: var(--ink-mid);
+      margin-top: 0.1rem;
+    }
+    .done-status.redeemed { color: var(--sage); }
+    .done-status.signed_up { color: var(--brass); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FORMS
+       ───────────────────────────────────────────────────────────────── */
+    .form-field { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-mid);
+      margin-bottom: 0.5rem;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 16;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-input:focus {
+      border-color: var(--oxblood);
+      background: #fff;
+      box-shadow: 0 0 0 3px var(--oxblood-soft);
+    }
+    .form-input::placeholder {
+      color: var(--ink-light);
+      font-style: italic;
+      font-weight: 400;
+    }
+    select.form-input {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%231C1814' stroke-width='1.3' d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       WELCOME
+       ───────────────────────────────────────────────────────────────── */
+    .welcome {
+      padding-top: 1rem;
+    }
+    .welcome-mark {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .welcome-mark .ornament {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.25rem;
+      color: var(--oxblood);
+    }
+    .welcome-mark .title {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      font-weight: 350;
+      font-size: 2.5rem;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .welcome-mark .title .it {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--oxblood);
+    }
+    .welcome-mark .tagline {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 16;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-mid);
+      max-width: 22rem;
+      margin: 0.75rem auto 0;
+      line-height: 1.55;
+    }
+    .welcome-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SETTINGS
+       ───────────────────────────────────────────────────────────────── */
+    .settings-section {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .settings-label {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-light);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.625rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--oxblood);
+      border: 1px solid var(--oxblood-soft);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 10;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .btn-danger:hover { background: var(--oxblood-soft); border-color: var(--oxblood); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       EMPTY STATE
+       ───────────────────────────────────────────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 3.5rem 1rem;
+      border: 1px dashed var(--rule);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+    .empty h3 {
+      font-family: 'Fraunces', serif;
+      font-variation-settings: "opsz" 36, "SOFT" 40;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .empty p {
+      font-family: 'Newsreader', serif;
+      font-size: 0.88rem;
+      color: var(--ink-mid);
+      font-style: italic;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────────────────────────── */
+    footer {
+      padding: 1.75rem 1.5rem 2.5rem;
+      text-align: center;
+      max-width: 460px;
+      margin: 0 auto;
+      border-top: 1px solid var(--rule);
+    }
+    footer .colophon {
+      font-family: 'Newsreader', serif;
+      font-variation-settings: "opsz" 12;
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+    footer .colophon .em {
+      color: var(--ink-mid);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       ANIMATION — quiet, not bouncy
+       ───────────────────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+    .delay-1 { animation-delay: 0.06s; }
+    .delay-2 { animation-delay: 0.12s; }
+    .delay-3 { animation-delay: 0.18s; }
+
+    /* Focus for keyboard users */
+    *:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<main id="app"></main>
+
+<footer>
+  <p class="colophon">
+    <span class="em">Colophon</span>
+    No server, no database, no account. Your name, birthday, and progress live only in this browser, on this device. Nothing is sent anywhere. Nothing is tracked. Set in <em>Fraunces</em> and <em>Newsreader</em>.
+  </p>
+</footer>
+
+<script>
+/* ═════════════════════════════════════════════════════════════════════
+   DATA
+   ═════════════════════════════════════════════════════════════════════ */
+const OFFERS = [
+  {
+    id: "starbucks", business: "Starbucks", domain: "starbucks.ca",
+    category: "coffee_dessert", perk: "Free handcrafted drink or food item",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://www.starbucks.ca/rewards",
+    websiteUrl: "https://www.starbucks.ca",
+    redemptionWindow: "Birthday only", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Must make one Star-earning purchase before your birthday each year to activate the reward. Redeem via the app on the day."
+  },
+  {
+    id: "tim-hortons", business: "Tim Hortons", domain: "timhortons.ca",
+    category: "coffee_dessert", perk: "Free drink or baked good",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://www.timhortons.ca/tims-rewards",
+    websiteUrl: "https://www.timhortons.ca",
+    redemptionWindow: "Birthday only", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Valid on your actual birthday only. Join Tims Rewards at least 7 days before your birthday so the offer loads to your account."
+  },
+  {
+    id: "chatime", business: "Chatime", domain: "chatime.ca",
+    category: "coffee_dessert", perk: "Free regular-size bubble tea",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://chatime.ca/societea/",
+    websiteUrl: "https://chatime.ca",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Join the Societea rewards program at least 7 days before your birthday and earn at least 1 point beforehand."
+  },
+  {
+    id: "cobs-bread", business: "COBS Bread", domain: "cobsbread.com",
+    category: "coffee_dessert", perk: "Free cinnamon bun",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://www.cobsbread.com/cobsclub/",
+    websiteUrl: "https://www.cobsbread.com",
+    redemptionWindow: "14 days around birthday", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Join COBS Club at least 7 days before your birthday and complete at least one prior purchase to trigger the reward."
+  },
+  {
+    id: "marble-slab", business: "Marble Slab Creamery", domain: "marbleslab.ca",
+    category: "coffee_dessert", perk: "Free ice cream cone",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 3,
+    signupUrl: "https://www.marbleslab.ca/marble-mail/",
+    websiteUrl: "https://www.marbleslab.ca",
+    redemptionWindow: "7 days around birthday", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Sign up for Marble Mail at least 48 hours before your birthday. The voucher arrives by email."
+  },
+  {
+    id: "jugo-juice", business: "Jugo Juice", domain: "jugojuice.com",
+    category: "coffee_dessert", perk: "Free large smoothie",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://www.jugojuice.com/jugo-juice-rewards/",
+    websiteUrl: "https://www.jugojuice.com",
+    redemptionWindow: "7 days around birthday", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Register for Jugo Juice Rewards in their app or online. The voucher arrives around your birthday."
+  },
+  {
+    id: "cartems", business: "Cartems Donuts", domain: "cartems.com",
+    category: "coffee_dessert", perk: "Free donut",
+    scope: "metro_van", municipalities: ["Vancouver"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://cartems.com/",
+    websiteUrl: "https://cartems.com",
+    redemptionWindow: "Birthday only", proofRequired: "id_and_account",
+    lastVerified: "2026-05-16",
+    notes: "Sign up for their newsletter at the bottom of the website before your birthday. Two Vancouver locations. Bring your ID on the day."
+  },
+  {
+    id: "honeys-doughnuts", business: "Honey's Doughnuts", domain: "honeysdoughnuts.com",
+    category: "coffee_dessert", perk: "Free birthday donut",
+    scope: "metro_van", municipalities: ["North Vancouver"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://honeysdoughnuts.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "A beloved North Van spot. Just show your ID. The owner is known to sing to the birthday person."
+  },
+  {
+    id: "dennys", business: "Denny's", domain: "dennys.ca",
+    category: "food", perk: "Free Build Your Own Grand Slam breakfast",
+    scope: "national", municipalities: ["Vancouver", "Burnaby", "Coquitlam", "Surrey", "Richmond", "Langley"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.dennys.ca",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Dine-in only. Show valid photo ID. You must purchase a drink. Taxes and tip are not included. Available at Kingsway, Coquitlam, Surrey King George, Surrey Fraser Hwy, Richmond, and Delta Scott Road locations."
+  },
+  {
+    id: "the-keg", business: "The Keg", domain: "thekeg.com",
+    category: "food", perk: "Free Billy Miner Pie slice",
+    scope: "national", municipalities: ["all"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.thekeg.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "No app needed. Order a meal, tell your server it is your birthday when you sit down, and the dessert is on them."
+  },
+  {
+    id: "cactus-club", business: "Cactus Club Cafe", domain: "cactusclubcafe.com",
+    category: "food", perk: "Free dessert with your meal",
+    scope: "metro_van", municipalities: ["Vancouver", "Burnaby", "Coquitlam", "Surrey", "Richmond", "North Vancouver", "West Vancouver", "Langley"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.cactusclubcafe.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Requires a paid meal. Let your server know it is your birthday when you are seated. Multiple Metro Van locations."
+  },
+  {
+    id: "carlos-obryans", business: "Carlos O'Bryan's", domain: "kobcob.com",
+    category: "food", perk: "Free meal (up to $20-$30 off)",
+    scope: "bc_local", municipalities: ["Vancouver", "New Westminster", "Burnaby", "Coquitlam", "Surrey"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.kobcob.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Bring at least one paying friend. Get $30 off before 4pm, or $20 off after 4pm. Dine-in only."
+  },
+  {
+    id: "de-dutch", business: "De Dutch", domain: "dedutch.com",
+    category: "food", perk: "Free Pannenkoek (Dutch pancake)",
+    scope: "bc_local", municipalities: ["Vancouver", "Burnaby", "Richmond", "Surrey", "Langley"],
+    signupRequired: true, signupDeadlineDaysBefore: 7,
+    signupUrl: "https://dedutch.com/de-club/",
+    websiteUrl: "https://dedutch.com",
+    redemptionWindow: "7 days from birthday", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Join the De Club email list at least a week before your birthday. A voucher for a free pancake arrives by email."
+  },
+  {
+    id: "boiling-point", business: "Boiling Point", domain: "bpgroupusa.com",
+    category: "food", perk: "50% off hot pot plus free drink",
+    scope: "metro_van", municipalities: ["Vancouver", "Burnaby", "Richmond", "Coquitlam"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.bpgroupusa.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Dine-in only. Show valid government-issued ID to your server before you order. Multiple Metro Van locations."
+  },
+  {
+    id: "happy-lamb", business: "Happy Lamb Hot Pot", domain: "happylambhotpot.com",
+    category: "food", perk: "Free all-you-can-eat hot pot meal",
+    scope: "metro_van", municipalities: ["Vancouver", "Burnaby", "Richmond", "Coquitlam"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://happylambhotpot.com",
+    redemptionWindow: "Birthday only", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Must dine with at least 3 paying adults. Call ahead to confirm the offer is running at your location before you go."
+  },
+  {
+    id: "boston-pizza", business: "Boston Pizza", domain: "bostonpizza.com",
+    category: "food", perk: "Free dessert, no purchase needed",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 14,
+    signupUrl: "https://bostonpizza.com/en/mybp.html",
+    websiteUrl: "https://www.bostonpizza.com",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Join the MyBP rewards program in the Boston Pizza app. No food purchase is required to claim your free dessert."
+  },
+  {
+    id: "dairy-queen", business: "Dairy Queen", domain: "dairyqueen.com",
+    category: "coffee_dessert", perk: "Buy-one-get-one-free Blizzard",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 14,
+    signupUrl: "https://www.dairyqueen.com/en-ca/app/",
+    websiteUrl: "https://www.dairyqueen.com/en-ca/",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Download the DQ app and join their rewards program. The BOGO Blizzard coupon loads to your account around your birthday."
+  },
+  {
+    id: "new-york-fries", business: "New York Fries", domain: "newyorkfries.com",
+    category: "food", perk: "Free regular fries",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 14,
+    signupUrl: "https://www.newyorkfries.com/fry-society",
+    websiteUrl: "https://www.newyorkfries.com",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Register for Fry Society and complete at least one purchase before your birthday. The fry coupon loads around your birthday month."
+  },
+  {
+    id: "red-robin", business: "Red Robin", domain: "redrobin.com",
+    category: "food", perk: "Free gourmet burger (unlimited fry refills included)",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 35,
+    signupUrl: "https://www.redrobin.com/rewards",
+    websiteUrl: "https://www.redrobin.com",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Join Red Robin Royalty and spend $10 before the start of your birthday month to trigger the free burger coupon. Finest Burgers excluded. Dine-in only."
+  },
+  {
+    id: "sephora", business: "Sephora", domain: "sephora.com",
+    category: "beauty", perk: "Free birthday beauty gift set",
+    scope: "national", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 14,
+    signupUrl: "https://www.sephora.com/ca/en/beauty/beauty-insider",
+    websiteUrl: "https://www.sephora.com/ca/en/",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "In-store: no purchase needed, just show your Beauty Insider account. Online: requires a $25 minimum purchase. Gift set changes annually."
+  },
+  {
+    id: "kiehls", business: "Kiehl's", domain: "kiehls.ca",
+    category: "beauty", perk: "Free travel-size product",
+    scope: "national", municipalities: ["Vancouver", "Burnaby", "Richmond"],
+    signupRequired: true, signupDeadlineDaysBefore: 30,
+    signupUrl: "https://www.kiehls.ca/en_CA/kiehls-rewards.html",
+    websiteUrl: "https://www.kiehls.ca",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Must be enrolled in Kiehl's Rewards. Redeemable online or in-store at Pacific Centre and Metrotown."
+  },
+  {
+    id: "london-drugs", business: "London Drugs", domain: "londondrugs.com",
+    category: "retail", perk: "$5 birthday voucher",
+    scope: "bc_local", municipalities: ["all"],
+    signupRequired: true, signupDeadlineDaysBefore: 30,
+    signupUrl: "https://www.londondrugs.com/ldextras-member-benefits/",
+    websiteUrl: "https://www.londondrugs.com",
+    redemptionWindow: "Birthday month", proofRequired: "loyalty_account",
+    lastVerified: "2026-05-16",
+    notes: "Must be an active LD Extras member and have made a purchase within the past 12 months. The voucher arrives by email about one week before your birthday and must be activated."
+  },
+  {
+    id: "exit-canada", business: "Exit Escape Rooms", domain: "e-exit.ca",
+    category: "experience", perk: "Free escape room admission",
+    scope: "bc_local", municipalities: ["Vancouver", "Burnaby", "Surrey", "Richmond", "Coquitlam", "Langley"],
+    signupRequired: true, signupDeadlineDaysBefore: 14,
+    signupUrl: "https://e-exit.ca/",
+    websiteUrl: "https://e-exit.ca",
+    redemptionWindow: "Within 2 days of birthday", proofRequired: "id_and_account",
+    lastVerified: "2026-05-16",
+    notes: "Birthday person plays free when accompanied by at least 4 full-paying players. Book through their newsletter. 10+ BC locations."
+  },
+  {
+    id: "the-hive", business: "The Hive Bouldering", domain: "hivebouldering.com",
+    category: "fitness", perk: "Free day pass for bouldering",
+    scope: "metro_van", municipalities: ["Vancouver", "North Vancouver", "Surrey", "Coquitlam"],
+    signupRequired: true, signupDeadlineDaysBefore: 1,
+    signupUrl: "https://hivebouldering.com/",
+    websiteUrl: "https://hivebouldering.com",
+    redemptionWindow: "Birthday only", proofRequired: "id_and_account",
+    lastVerified: "2026-05-16",
+    notes: "Create an online profile and fill out the digital waiver before showing up. Required to check in and redeem the free day pass."
+  },
+  {
+    id: "scandinave-whistler", business: "Scandinave Spa", domain: "scandinave.com",
+    category: "experience", perk: "20% off Thermal Journey",
+    scope: "sea_to_sky", municipalities: ["Whistler"],
+    signupRequired: false, signupDeadlineDaysBefore: null, signupUrl: null,
+    websiteUrl: "https://www.scandinave.com/whistler/",
+    redemptionWindow: "Birthday month", proofRequired: "id",
+    lastVerified: "2026-05-16",
+    notes: "Valid any day throughout your birthday month, with or without a reservation. Discount applied at check-in for the birthday guest only."
+  }
+];
+
+/* ═════════════════════════════════════════════════════════════════════
+   STATE
+   ═════════════════════════════════════════════════════════════════════ */
+let profile      = JSON.parse(localStorage.getItem('birthdaybc:profile') || 'null');
+let statusMap    = JSON.parse(localStorage.getItem('birthdaybc:status') || '{}');
+let activeFilters = new Set();
+let doneOpen = false;
+let view = 'list';
+
+const MUNICIPALITIES = [
+  "Vancouver","Burnaby","Coquitlam","Surrey","Richmond",
+  "North Vancouver","West Vancouver","New Westminster","Langley","Squamish","Whistler"
+];
+
+/* Refined category labels — no emoji. Editorial register. */
+const CAT_META = {
+  food:            { label: 'Food' },
+  coffee_dessert:  { label: 'Coffee & Sweets' },
+  beauty:          { label: 'Beauty' },
+  retail:          { label: 'Retail' },
+  experience:      { label: 'Experience' },
+  fitness:         { label: 'Fitness' }
+};
+
+const PROOF_LABELS = {
+  id: 'Show ID',
+  loyalty_account: 'App or account',
+  id_and_account: 'ID + account',
+  none: 'Nothing needed'
+};
+
+/* ═════════════════════════════════════════════════════════════════════
+   HELPERS
+   ═════════════════════════════════════════════════════════════════════ */
+
+// Parse date string without timezone shift (YYYY-MM-DD to local midnight)
+function parseDate(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function getBirthdayInfo() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const bd = parseDate(profile.birthday);
+  bd.setFullYear(today.getFullYear());
+  let daysUntil = Math.round((bd - today) / 86400000);
+  if (daysUntil < -30) {
+    bd.setFullYear(today.getFullYear() + 1);
+    daysUntil = Math.round((bd - today) / 86400000);
+  }
+  return { daysUntil, birthdayDate: bd };
+}
+
+function fmtDate(d) {
+  return d.toLocaleDateString('en-CA', { month: 'long', day: 'numeric' });
+}
+
+/* Deterministic warm palette for monogram fallback (used only if logo network fails) */
+function brandColor(name) {
+  const palette = [
+    { bg: '#F2E0DC', text: '#7A2B25' },
+    { bg: '#EFE3CB', text: '#6E4D24' },
+    { bg: '#E2E6D6', text: '#3F5235' },
+    { bg: '#E3DDD0', text: '#4D4537' },
+    { bg: '#EADCD4', text: '#6E3A29' },
+    { bg: '#DEDCD0', text: '#3A4035' },
+    { bg: '#F0E6D2', text: '#7A5527' },
+    { bg: '#E5DCC7', text: '#5B4E2E' },
+  ];
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return palette[h % palette.length];
+}
+
+// Update offer status; null deletes the key cleanly
+function updateStatus(id, newStatus) {
+  // toggle behaviour: clicking same status clears it
+  if (statusMap[id] === newStatus) {
+    delete statusMap[id];
+  } else if (newStatus === null) {
+    delete statusMap[id];
+  } else {
+    statusMap[id] = newStatus;
+  }
+  localStorage.setItem('birthdaybc:status', JSON.stringify(statusMap));
+  render();
+}
+
+function saveProfile(e) {
+  e.preventDefault();
+  const name  = document.getElementById('inp-name').value.trim();
+  const bday  = document.getElementById('inp-bday').value;
+  const muni  = document.getElementById('inp-muni').value;
+  if (!name || !bday || !muni) return;
+  profile = { name, birthday: bday, municipality: muni };
+  localStorage.setItem('birthdaybc:profile', JSON.stringify(profile));
+  view = 'list';
+  render();
+}
+
+function resetProgress() {
+  if (!confirm('Reset all offer progress? Your profile will be kept.')) return;
+  statusMap = {};
+  localStorage.removeItem('birthdaybc:status');
+  view = 'list';
+  render();
+}
+
+function forgetMe() {
+  if (!confirm('This will delete your profile and all progress. Cannot be undone.')) return;
+  localStorage.removeItem('birthdaybc:profile');
+  localStorage.removeItem('birthdaybc:status');
+  profile = null; statusMap = {}; view = 'list';
+  render();
+}
+
+function toggleFilter(cat) {
+  activeFilters.has(cat) ? activeFilters.delete(cat) : activeFilters.add(cat);
+  render();
+}
+
+function dirLink(business) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business + ' ' + profile.municipality + ' BC')}`;
+}
+
+/* Logo fallback chain:
+   1. Google s2/favicons (most reliable, returns up to 128px)
+   2. DuckDuckGo icon service (different cache, catches some sites Google misses)
+   3. Tag the small/empty results, so we can pad them
+   4. If both fail, the styled monogram beneath remains visible. */
+function handleLogoFallback(img) {
+  if (img.dataset.tried === 'ddg') {
+    img.remove();
+    return;
+  }
+  img.dataset.tried = 'ddg';
+  img.src = img.dataset.ddg;
+}
+/* When the favicon is tiny (e.g. 16px source), pad it so it doesn't look pixelated. */
+function checkLogoSize(img) {
+  if (img.naturalWidth > 0 && img.naturalWidth <= 32) {
+    img.classList.add('tiny');
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   LOGO HTML
+   ═════════════════════════════════════════════════════════════════════ */
+function logoHtml(o, size = 'md') {
+  const c = brandColor(o.business);
+  const dim = size === 'sm' ? '2.5rem' : '3.25rem';
+  const fs  = size === 'sm' ? '1rem' : '1.4rem';
+  const r   = '8px';
+  const initial = o.business[0].toUpperCase();
+  const primary = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(o.domain)}&sz=128`;
+  const fallback = `https://icons.duckduckgo.com/ip3/${encodeURIComponent(o.domain)}.ico`;
+  return `
+    <div class="logo-wrap" style="width:${dim};height:${dim};border-radius:${r};">
+      <div class="logo-initial" style="background:${c.bg};color:${c.text};font-size:${fs};border-radius:${r};">
+        ${initial}
+      </div>
+      <img
+        src="${primary}"
+        data-ddg="${fallback}"
+        alt=""
+        class="logo-img"
+        style="border-radius:${r};"
+        onerror="handleLogoFallback(this)"
+        onload="checkLogoSize(this)"
+        loading="lazy"
+        aria-hidden="true">
+    </div>`;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   OFFER CARD
+   ═════════════════════════════════════════════════════════════════════ */
+function offerCard(o, daysUntil, birthdayDate) {
+  // Deadline notice (refined, italic, no emoji)
+  let notice = '';
+  if (o.signupDeadlineDaysBefore != null) {
+    const dl = new Date(birthdayDate);
+    dl.setDate(dl.getDate() - o.signupDeadlineDaysBefore);
+    const daysLeft = daysUntil - o.signupDeadlineDaysBefore;
+    if (daysLeft <= 0) {
+      notice = `<div class="notice notice-urgent"><span><strong>Signup window passed.</strong> Try anyway — some accounts still credit the offer up to ${fmtDate(dl)}.</span></div>`;
+    } else if (daysLeft <= 3) {
+      notice = `<div class="notice notice-urgent"><span><strong>${daysLeft} day${daysLeft === 1 ? '' : 's'} left to sign up</strong> — register by ${fmtDate(dl)}.</span></div>`;
+    } else if (daysLeft <= 7) {
+      notice = `<div class="notice notice-warn"><span><strong>${daysLeft} days to sign up</strong> — register by ${fmtDate(dl)}.</span></div>`;
+    }
+  }
+
+  // Primary action
+  const hasSignup = o.signupRequired && o.signupUrl;
+  const primaryBtn = hasSignup
+    ? `<a href="${o.signupUrl}" target="_blank" rel="noopener noreferrer"
+         class="btn btn-primary" aria-label="Sign up for ${o.business} birthday offer">
+         Sign up →
+       </a>`
+    : `<a href="${dirLink(o.business)}" target="_blank" rel="noopener noreferrer"
+         class="btn btn-primary" aria-label="Get directions to ${o.business}">
+         Directions →
+       </a>`;
+
+  const dirBtn = hasSignup
+    ? `<a href="${dirLink(o.business)}" target="_blank" rel="noopener noreferrer"
+         class="btn btn-ghost btn-icon-sq" title="Directions to ${o.business}" aria-label="Get directions to ${o.business}">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+           <circle cx="12" cy="10" r="3"/>
+         </svg>
+       </a>`
+    : '';
+
+  // Status buttons — segmented control
+  const st = statusMap[o.id];
+  const statusRow = `
+    <div class="status-row" role="group" aria-label="Mark offer status">
+      <button class="status-btn ${st === 'signed_up' ? 'is-set' : ''}"
+              onclick="updateStatus('${o.id}','signed_up')"
+              aria-pressed="${st === 'signed_up'}"
+              aria-label="Mark as signed up">Signed up</button>
+      <button class="status-btn ${st === 'redeemed' ? 'is-set' : ''}"
+              onclick="updateStatus('${o.id}','redeemed')"
+              aria-pressed="${st === 'redeemed'}"
+              aria-label="Mark as redeemed">Redeemed</button>
+      <button class="status-btn ${st === 'skipped' ? 'is-set' : ''}"
+              onclick="updateStatus('${o.id}','skipped')"
+              aria-pressed="${st === 'skipped'}"
+              aria-label="Skip this offer">Pass</button>
+    </div>`;
+
+  // Source link
+  const sourceLink = `<a href="${o.websiteUrl}" target="_blank" rel="noopener noreferrer"
+    aria-label="Verify ${o.business} offer on their website">
+    Verify · ${o.domain} ↗
+  </a>`;
+
+  return `
+    <article class="card animate-in">
+      <div class="card-head">
+        ${logoHtml(o)}
+        <div class="card-meta">
+          <h3 class="business">${o.business}</h3>
+          <div class="perk">${o.perk}</div>
+        </div>
+      </div>
+
+      <div class="card-info">
+        <span class="info-line">
+          <span class="info-label">Window</span>
+          <span class="info-value">${o.redemptionWindow}</span>
+        </span>
+        <span class="info-line">
+          <span class="info-label">Bring</span>
+          <span class="info-value">${PROOF_LABELS[o.proofRequired] || o.proofRequired}</span>
+        </span>
+      </div>
+
+      ${notice}
+
+      <details>
+        <summary>
+          <i class="chevron">›</i>
+          <span>The fine print</span>
+        </summary>
+        <div class="notes-body">${o.notes}</div>
+      </details>
+
+      <div class="actions">
+        ${primaryBtn}
+        ${dirBtn}
+      </div>
+
+      ${statusRow}
+
+      <div class="source">${sourceLink}</div>
+    </article>`;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   SCREENS
+   ═════════════════════════════════════════════════════════════════════ */
+
+function renderWelcome() {
+  /* Custom SVG ornament — a letterpress-style seal. Pure geometry, no SVG <text>
+     dependency on web fonts. A wreath with a single candle flame inside. */
+  const ornament = `
+    <svg class="ornament" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- outer seal -->
+      <circle cx="28" cy="28" r="26.5" stroke="currentColor" stroke-width="1"/>
+      <circle cx="28" cy="28" r="22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+      <!-- left laurel -->
+      <path d="M14 28 C 14 22, 18 18, 22 18" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+      <path d="M14 28 C 14 34, 18 38, 22 38" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+      <!-- right laurel -->
+      <path d="M42 28 C 42 22, 38 18, 34 18" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+      <path d="M42 28 C 42 34, 38 38, 34 38" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+      <!-- candle flame (single elegant teardrop) -->
+      <path d="M28 19 C 25 23, 25 27, 28 28 C 31 27, 31 23, 28 19 Z" fill="currentColor"/>
+      <!-- candle wick + base line -->
+      <line x1="28" y1="28" x2="28" y2="36" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      <line x1="22" y1="38" x2="34" y2="38" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
+    </svg>`;
+
+  document.getElementById('app').innerHTML = `
+    <div class="welcome animate-in">
+      <div class="welcome-mark">
+        ${ornament}
+        <div class="title">Freebee <span class="it">BC</span></div>
+        <p class="tagline">A quiet register of the free birthday perks waiting for you across Metro Vancouver and Sea-to-Sky.</p>
+      </div>
+
+      <div class="welcome-card animate-in delay-1">
+        <form onsubmit="saveProfile(event)" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="inp-name">First name</label>
+            <input type="text" id="inp-name" class="form-input" placeholder="e.g. Jordan" required autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="inp-bday">Date of birth</label>
+            <input type="date" id="inp-bday" class="form-input" required>
+          </div>
+          <div class="form-field" style="margin-bottom:1.75rem;">
+            <label class="form-label" for="inp-muni">City</label>
+            <select id="inp-muni" class="form-input" required>
+              <option value="">Choose your city…</option>
+              ${MUNICIPALITIES.map(m => `<option value="${m}">${m}</option>`).join('')}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-coral" style="width:100%;padding:1rem;font-size:0.92rem;letter-spacing:0.14em;text-transform:uppercase;" aria-label="Show my perks">
+            Show my register →
+          </button>
+        </form>
+      </div>
+
+      <p style="text-align:center;font-family:'Newsreader',serif;font-style:italic;font-size:0.8rem;color:var(--ink-light);margin-top:1.25rem;">
+        No account. No email. Nothing leaves this device.
+      </p>
+    </div>`;
+}
+
+function renderSettings() {
+  document.getElementById('app').innerHTML = `
+    <div class="animate-in">
+      <header class="masthead">
+        <div>
+          <div class="masthead-mark">Settings</div>
+          <div class="masthead-sub">Your details &middot; Your data</div>
+        </div>
+        <button onclick="view='list';render()" class="btn btn-ghost" style="padding:0.55rem 1rem;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;" aria-label="Return to list">
+          ← Back
+        </button>
+      </header>
+
+      <div class="settings-section">
+        <div class="settings-label">Your details</div>
+        <form onsubmit="saveProfile(event)" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="inp-name">First name</label>
+            <input type="text" id="inp-name" class="form-input" value="${profile.name}" required autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="inp-bday">Date of birth</label>
+            <input type="date" id="inp-bday" class="form-input" value="${profile.birthday}" required>
+          </div>
+          <div class="form-field" style="margin-bottom:1.5rem;">
+            <label class="form-label" for="inp-muni">City</label>
+            <select id="inp-muni" class="form-input" required>
+              ${MUNICIPALITIES.map(m => `<option value="${m}" ${m === profile.municipality ? 'selected' : ''}>${m}</option>`).join('')}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;padding:0.85rem;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;">Save changes</button>
+        </form>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Your data</div>
+        <p style="font-family:'Newsreader',serif;font-style:italic;font-size:0.88rem;color:var(--ink-mid);line-height:1.65;margin-bottom:1.25rem;">
+          Your name, birthday, and offer progress are stored locally in this browser only. Nothing is shared or transmitted anywhere.
+        </p>
+        <button onclick="resetProgress()" class="btn btn-ghost" style="width:100%;margin-bottom:0.625rem;padding:0.75rem;letter-spacing:0.12em;text-transform:uppercase;font-size:0.72rem;">
+          Reset offer progress
+        </button>
+        <button onclick="forgetMe()" class="btn-danger">
+          Delete everything &amp; start over
+        </button>
+      </div>
+    </div>`;
+}
+
+function renderList() {
+  const { daysUntil, birthdayDate } = getBirthdayInfo();
+  const app = document.getElementById('app');
+
+  const local = OFFERS.filter(o =>
+    o.municipalities.includes('all') || o.municipalities.includes(profile.municipality)
+  );
+  const categories = [...new Set(local.map(o => o.category))];
+
+  // Partition into sections
+  const actNow = [], planAhead = [], showUp = [], done = [];
+
+  local.forEach(o => {
+    if (statusMap[o.id]) { done.push(o); return; }
+    if (activeFilters.size > 0 && !activeFilters.has(o.category)) return;
+
+    if (o.signupRequired && o.signupDeadlineDaysBefore != null) {
+      const daysUntilDeadline = daysUntil - o.signupDeadlineDaysBefore;
+      if (daysUntilDeadline <= 7) actNow.push(o);
+      else planAhead.push(o);
+    } else if (o.signupRequired) {
+      // Edge case: signup required but no deadline known. Treat as plan ahead.
+      planAhead.push(o);
+    } else {
+      showUp.push(o);
+    }
+  });
+
+  const activeCount = actNow.length + planAhead.length + showUp.length;
+  const claimedCount = done.filter(o => statusMap[o.id] === 'redeemed' || statusMap[o.id] === 'signed_up').length;
+  const totalLocal = local.length;
+  const progressPct = totalLocal > 0 ? Math.round((claimedCount / totalLocal) * 100) : 0;
+
+  // Greeting — editorial, with italic accent on the name
+  let greeting, sub;
+  const nameSpan = `<span class="accent">${profile.name}</span>`;
+  if (daysUntil === 0) {
+    greeting = `Many happy returns, ${nameSpan}.`;
+    sub = `Today is the day. ${activeCount} perk${activeCount !== 1 ? 's' : ''} are waiting in ${profile.municipality}.`;
+  } else if (daysUntil < 0) {
+    greeting = `Hello, ${nameSpan}.`;
+    sub = `Your birthday was ${Math.abs(daysUntil)} days ago. A few of these may still be claimable.`;
+  } else if (daysUntil <= 7) {
+    greeting = `Almost there, ${nameSpan}.`;
+    sub = `${daysUntil} day${daysUntil !== 1 ? 's' : ''} to your birthday. ${activeCount} perk${activeCount !== 1 ? 's' : ''} ready in ${profile.municipality}.`;
+  } else if (daysUntil <= 30) {
+    greeting = `Hello, ${nameSpan}.`;
+    sub = `${daysUntil} days until your birthday. ${activeCount} perk${activeCount !== 1 ? 's' : ''} curated for ${profile.municipality}.`;
+  } else {
+    greeting = `Hello, ${nameSpan}.`;
+    sub = `Your birthday is ${daysUntil} days away. A standing register of ${activeCount} perk${activeCount !== 1 ? 's' : ''} in ${profile.municipality}.`;
+  }
+
+  // Ledger label
+  const ledgerLabel = claimedCount === 0
+    ? `Nothing recorded yet`
+    : claimedCount === totalLocal
+    ? `Register complete`
+    : `${claimedCount} of ${totalLocal} recorded`;
+
+  // Section builder
+  function section(title, dotCls, items) {
+    if (!items.length) return '';
+    const cards = items.map(o => offerCard(o, daysUntil, birthdayDate)).join('');
+    return `
+      <section class="section" aria-label="${title}">
+        <header class="section-head">
+          <span class="dot ${dotCls}" aria-hidden="true"></span>
+          <h2>${title}</h2>
+          <span class="count"><span class="count-num">${items.length}</span> entries</span>
+        </header>
+        ${cards}
+      </section>`;
+  }
+
+  // Done section
+  const doneHtml = done.length ? `
+    <section style="margin-bottom:2rem;" aria-label="Recorded perks">
+      <button onclick="doneOpen=!doneOpen;render()" class="done-toggle" aria-expanded="${doneOpen}">
+        <span>${doneOpen ? '−' : '+'}</span>
+        <span>Recorded</span>
+        <span class="count">${done.length} ${done.length === 1 ? 'entry' : 'entries'}</span>
+      </button>
+      ${doneOpen ? `
+        <div>
+          ${done.map(o => `
+            <div class="done-card">
+              ${logoHtml(o, 'sm')}
+              <div style="flex:1;min-width:0;">
+                <div class="done-business">${o.business}</div>
+                <div class="done-status ${statusMap[o.id]}">
+                  ${statusMap[o.id] === 'redeemed' ? 'Redeemed' : statusMap[o.id] === 'signed_up' ? 'Signed up' : 'Passed'}
+                </div>
+              </div>
+              <button onclick="updateStatus('${o.id}', null)"
+                class="btn btn-ghost" style="padding:0.45rem 0.7rem;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;"
+                aria-label="Undo ${o.business} status">
+                Undo
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </section>` : '';
+
+  // Empty state
+  const isEmpty = activeFilters.size > 0 && activeCount === 0;
+  const emptyHtml = isEmpty ? `
+    <div class="empty animate-in">
+      <h3>Nothing matches that filter</h3>
+      <p>Try removing a category, or change your city in Settings.</p>
+    </div>` : '';
+
+  // Settings icon SVG
+  const settingsIcon = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>`;
+
+  // Issue date — for editorial register feel
+  const today = new Date();
+  const issueDate = today.toLocaleDateString('en-CA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  app.innerHTML = `
+    <div>
+      <!-- MASTHEAD -->
+      <header class="masthead animate-in">
+        <div>
+          <div class="masthead-mark">Freebee <span class="it">BC</span></div>
+          <div class="masthead-sub">${profile.municipality} &middot; ${issueDate}</div>
+        </div>
+        <button onclick="view='settings';render()" class="icon-btn" aria-label="Open settings">
+          ${settingsIcon}
+        </button>
+      </header>
+
+      <!-- GREETING -->
+      <div class="greeting animate-in delay-1">
+        <h1>${greeting}</h1>
+        <p>${sub}</p>
+      </div>
+
+      <!-- LEDGER -->
+      <div class="ledger animate-in delay-2">
+        <div class="ledger-head">
+          <span class="text">${ledgerLabel}</span>
+          <span class="count">${progressPct}%</span>
+        </div>
+        <div class="ledger-track">
+          <div class="ledger-fill" style="width:${progressPct}%;"></div>
+        </div>
+      </div>
+
+      <!-- FILTER CHIPS -->
+      <div class="scroll-x animate-in delay-3" role="group" aria-label="Filter by category">
+        ${categories.map(cat => {
+          const m = CAT_META[cat] || { label: cat };
+          const active = activeFilters.has(cat);
+          return `<button class="chip ${active ? 'active' : ''}"
+            onclick="toggleFilter('${cat}')"
+            aria-pressed="${active}"
+            aria-label="Filter ${m.label}">${m.label}</button>`;
+        }).join('')}
+      </div>
+
+      <!-- SECTIONS -->
+      ${emptyHtml}
+      ${section('Time-sensitive', 'dot-urgent', actNow)}
+      ${section('Plan ahead', 'dot-plan', planAhead)}
+      ${section('Just show up', 'dot-show', showUp)}
+      ${doneHtml}
+    </div>`;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   MAIN
+   ═════════════════════════════════════════════════════════════════════ */
+function render() {
+  if (!profile)          { renderWelcome();  return; }
+  if (view === 'settings') { renderSettings(); return; }
+  renderList();
+}
+
+render();
+</script>
+</body>
+</html>
